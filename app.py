@@ -6,7 +6,7 @@ app = FLask(__name__)
 @app.route('/')
 def index():
     my_list = ["apples","oranges","grapes","pineapples"]
-    return sender_template ("index.html",my_list = my_list)
+    return render_template ("index.html",my_list = my_list)
 
 @app.route("/meow")
 def meow():
