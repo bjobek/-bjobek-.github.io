@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>registerLender.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832; font-weight: bold;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #6a8759;}
+.s4 { color: #cc7832;}
+.s5 { color: #9876aa;}
+.s6 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+registerLender.php</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?php</span>
+<span class="s2">/**</span>
+ * Created by PhpStorm.
+ * User: bjorn
+ * Date: 17.02.19
+ * Time: 12:46
+ */
+
+<span class="s0">require_once </span><span class="s3">&quot;header.php&quot;</span><span class="s4">;</span>
+
+<span class="s5">$UID</span><span class="s1">=</span><span class="s5">$lastName</span><span class="s1">=</span><span class="s5">$firstName</span><span class="s1">=</span><span class="s5">$address</span><span class="s1">=</span><span class="s5">$email</span><span class="s1">=</span><span class="s5">$error</span><span class="s1">=</span><span class="s3">&quot;&quot;</span><span class="s4">;</span>
+
+<span class="s0">if </span><span class="s1">(</span><span class="s0">isset</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'lastName'</span><span class="s1">])) {</span>
+    <span class="s5">$UID </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'UID'</span><span class="s1">])</span><span class="s4">;</span>
+    <span class="s5">$lastName </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'lastName'</span><span class="s1">])</span><span class="s4">;</span>
+    <span class="s5">$firstName </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'firstName'</span><span class="s1">])</span><span class="s4">;</span>
+    <span class="s5">$address </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'address'</span><span class="s1">])</span><span class="s4">;</span>
+    <span class="s5">$email </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'email'</span><span class="s1">])</span><span class="s4">;</span>
+
+
+    <span class="s0">if </span><span class="s1">(</span><span class="s5">$UID </span><span class="s1">== </span><span class="s3">&quot;&quot; </span><span class="s1">|| </span><span class="s5">$lastName </span><span class="s1">== </span><span class="s3">&quot;&quot; </span><span class="s1">|| </span><span class="s5">$firstName </span><span class="s1">== </span><span class="s3">&quot;&quot; </span><span class="s1">|| </span><span class="s5">$address </span><span class="s1">== </span><span class="s3">&quot;&quot; </span><span class="s1">|| </span><span class="s5">$email </span><span class="s1">== </span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+        <span class="s5">$error </span><span class="s1">= </span><span class="s3">'Not all fields were entered'</span><span class="s4">;</span>
+
+    <span class="s0">else</span><span class="s1">{</span>
+        <span class="s5">$result </span><span class="s1">= </span><span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">&quot;INSERT INTO Person (UID, LastName, FirstName, address, email) 
+        VALUES ('</span><span class="s5">$UID</span><span class="s3">','</span><span class="s5">$lastName</span><span class="s3">','</span><span class="s5">$firstName</span><span class="s3">','</span><span class="s5">$address</span><span class="s3">','</span><span class="s5">$email</span><span class="s3">' )&quot;</span><span class="s1">)</span><span class="s4">;</span>
+
+        <span class="s0">if</span><span class="s1">(</span><span class="s5">$result</span><span class="s1">){</span>
+            <span class="s0">die</span><span class="s1">(</span><span class="s3">&quot;&lt;div class='center'&gt;New lender entered Successfully! Please 
+             &lt;a data-transition='slide' href='lenders.php?view=</span><span class="s5">$user</span><span class="s3">'&gt;click here&lt;/a&gt; 
+             to continue.&lt;/div&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="s1">)</span><span class="s4">;</span>
+
+
+        <span class="s1">}</span>
+
+    }
+}
+
+
+
+<span class="s0">echo </span><span class="s6">&lt;&lt;&lt;_END 
+      </span>
+      <span class="s3">&lt;form method='post' action='registerLender.php'&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;&lt;/label&gt; 
+          &lt;span class='error'&gt;</span><span class="s5">$error</span><span class="s3">&lt;/span&gt; 
+        &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;&lt;/label&gt; 
+          Please enter credentials  
+        &lt;/div&gt; &lt;br&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;RFID &lt;/label&gt; 
+          &lt;input type='text' maxlength='11' name='UID' value='</span><span class="s5">$UID</span><span class="s3">'&gt; 
+          &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;Last Name&lt;/label&gt; 
+          &lt;input type='text' maxlength='255' name='lastName' value='</span><span class="s5">$lastName</span><span class="s3">'&gt; 
+        &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;First Name&lt;/label&gt; 
+          &lt;input type='text' maxlength='255' name='firstName' value='</span><span class="s5">$firstName</span><span class="s3">'&gt; 
+        &lt;/div&gt; 
+         &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;Address&lt;/label&gt; 
+          &lt;input type='text' maxlength='255' name='address' value='</span><span class="s5">$address</span><span class="s3">'&gt; 
+        &lt;/div&gt; 
+         &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;Email&lt;/label&gt; 
+          &lt;input type='text' maxlength='255' name='email' value='</span><span class="s5">$email</span><span class="s3">'&gt; 
+        &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;&lt;/label&gt; 
+          &lt;input data-transition='slide' type='submit' value='Register'&gt; 
+        &lt;/div&gt; 
+      &lt;/form&gt; 
+    &lt;/div&gt; 
+  &lt;/body&gt; 
+&lt;/html&gt;</span>
+<span class="s6">_END</span><span class="s4">;</span>
+
+
+<span class="s0">?&gt;</span></pre>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>books.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832; font-weight: bold;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #cc7832;}
+.s5 { color: #9876aa;}
+.s6 { color: #a9b7c6;}
+.s7 { color: #6897bb;}
+.s8 { color: #a9b7c6;}
+.s9 { color: #e8bf6a;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+books.php</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?php </span><span class="s2">// Example 26-9: members.php</span>
+<span class="s0">require_once </span><span class="s3">'header.php'</span><span class="s4">;</span>
+
+<span class="s0">if </span><span class="s1">(!</span><span class="s5">$loggedin</span><span class="s1">) </span><span class="s0">die</span><span class="s1">(</span><span class="s3">&quot;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="s1">)</span><span class="s4">;</span>
+
+<span class="s0">if </span><span class="s1">(</span><span class="s0">isset</span><span class="s1">(</span><span class="s5">$_GET</span><span class="s1">[</span><span class="s3">'view'</span><span class="s1">]))</span>
+{
+    <span class="s5">$view </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_GET</span><span class="s1">[</span><span class="s3">'view'</span><span class="s1">])</span><span class="s4">;</span>
+
+    <span class="s0">if </span><span class="s1">(</span><span class="s5">$view </span><span class="s1">== </span><span class="s5">$user</span><span class="s1">) </span><span class="s5">$name </span><span class="s1">= </span><span class="s3">&quot;Your&quot;</span><span class="s4">;</span>
+    <span class="s0">else                </span><span class="s5">$name </span><span class="s1">= </span><span class="s3">&quot;</span><span class="s5">$view</span><span class="s3">'s&quot;</span><span class="s4">;</span>
+
+    <span class="s0">echo </span><span class="s3">&quot;&lt;h3&gt;</span><span class="s5">$name </span><span class="s3">Profile&lt;/h3&gt;&quot;</span><span class="s4">;</span>
+    <span class="s6">showProfile</span><span class="s1">(</span><span class="s5">$view</span><span class="s1">)</span><span class="s4">;</span>
+    <span class="s0">echo </span><span class="s3">&quot;&lt;a data-role='button' data-transition='slide' 
+          href='messages.php?view=</span><span class="s5">$view</span><span class="s3">'&gt;View </span><span class="s5">$name </span><span class="s3">messages&lt;/a&gt;&quot;</span><span class="s4">;</span>
+    <span class="s0">die</span><span class="s1">(</span><span class="s3">&quot;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="s1">)</span><span class="s4">;</span>
+<span class="s1">}</span>
+
+<span class="s0">if </span><span class="s1">(</span><span class="s0">isset</span><span class="s1">(</span><span class="s5">$_GET</span><span class="s1">[</span><span class="s3">'add'</span><span class="s1">]))</span>
+{
+    <span class="s5">$add </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_GET</span><span class="s1">[</span><span class="s3">'add'</span><span class="s1">])</span><span class="s4">;</span>
+
+    <span class="s5">$result </span><span class="s1">= </span><span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">&quot;SELECT * FROM book&quot;</span><span class="s1">)</span><span class="s4">;</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s5">$result</span><span class="s1">-&gt;</span><span class="s6">num_rows</span><span class="s1">)</span>
+        <span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">&quot;INSERT INTO friends VALUES ('</span><span class="s5">$add</span><span class="s3">', '</span><span class="s5">$user</span><span class="s3">')&quot;</span><span class="s1">)</span><span class="s4">;</span>
+<span class="s1">}</span>
+<span class="s0">elseif </span><span class="s1">(</span><span class="s0">isset</span><span class="s1">(</span><span class="s5">$_GET</span><span class="s1">[</span><span class="s3">'remove'</span><span class="s1">]))</span>
+{
+    <span class="s5">$remove </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_GET</span><span class="s1">[</span><span class="s3">'remove'</span><span class="s1">])</span><span class="s4">;</span>
+    <span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">&quot;DELETE FROM friends WHERE user='</span><span class="s5">$remove</span><span class="s3">' AND friend='</span><span class="s5">$user</span><span class="s3">'&quot;</span><span class="s1">)</span><span class="s4">;</span>
+<span class="s1">}</span>
+
+<span class="s5">$result </span><span class="s1">= </span><span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">&quot;SELECT user FROM member ORDER BY user&quot;</span><span class="s1">)</span><span class="s4">;</span>
+<span class="s5">$num    </span><span class="s1">= </span><span class="s5">$result</span><span class="s1">-&gt;</span><span class="s6">num_rows</span><span class="s4">;</span>
+
+<span class="s0">echo </span><span class="s3">&quot;&lt;h3&gt;Books in library&lt;/h3&gt;&lt;ul&gt;&quot;</span><span class="s4">;</span>
+
+<span class="s0">for </span><span class="s1">(</span><span class="s5">$j </span><span class="s1">= </span><span class="s7">0 </span><span class="s4">; </span><span class="s5">$j </span><span class="s1">&lt; </span><span class="s5">$num </span><span class="s4">; </span><span class="s1">++</span><span class="s5">$j</span><span class="s1">)</span>
+{
+    <span class="s5">$row </span><span class="s1">= </span><span class="s5">$result</span><span class="s1">-&gt;</span><span class="s6">fetch_array</span><span class="s1">(</span><span class="s6">MYSQLI_ASSOC</span><span class="s1">)</span><span class="s4">;</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s5">$row</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] == </span><span class="s5">$user</span><span class="s1">) </span><span class="s0">continue</span><span class="s4">;</span>
+
+    <span class="s0">echo </span><span class="s3">&quot;&lt;li&gt;&lt;a data-transition='slide' href='members.php?view=&quot; </span><span class="s1">.</span>
+        <span class="s5">$row</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] . </span><span class="s3">&quot;'&gt;&quot; </span><span class="s1">. </span><span class="s5">$row</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] . </span><span class="s3">&quot;&lt;/a&gt;&quot;</span><span class="s4">;</span>
+    <span class="s5">$follow </span><span class="s1">= </span><span class="s3">&quot;follow&quot;</span><span class="s4">;</span>
+
+    <span class="s5">$result1 </span><span class="s1">= </span><span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">&quot;SELECT * FROM friends WHERE 
+      user='&quot; </span><span class="s1">. </span><span class="s5">$row</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] . </span><span class="s3">&quot;' AND friend='</span><span class="s5">$user</span><span class="s3">'&quot;</span><span class="s1">)</span><span class="s4">;</span>
+    <span class="s5">$t1      </span><span class="s1">= </span><span class="s5">$result1</span><span class="s1">-&gt;</span><span class="s6">num_rows</span><span class="s4">;</span>
+    <span class="s5">$result1 </span><span class="s1">= </span><span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">&quot;SELECT * FROM friends WHERE 
+      user='</span><span class="s5">$user</span><span class="s3">' AND friend='&quot; </span><span class="s1">. </span><span class="s5">$row</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] . </span><span class="s3">&quot;'&quot;</span><span class="s1">)</span><span class="s4">;</span>
+    <span class="s5">$t2      </span><span class="s1">= </span><span class="s5">$result1</span><span class="s1">-&gt;</span><span class="s6">num_rows</span><span class="s4">;</span>
+
+    <span class="s0">if </span><span class="s1">((</span><span class="s5">$t1 </span><span class="s1">+ </span><span class="s5">$t2</span><span class="s1">) &gt; </span><span class="s7">1</span><span class="s1">) </span><span class="s0">echo </span><span class="s3">&quot; &amp;harr; is a mutual friend&quot;</span><span class="s4">;</span>
+    <span class="s0">elseif </span><span class="s1">(</span><span class="s5">$t1</span><span class="s1">)         </span><span class="s0">echo </span><span class="s3">&quot; &amp;larr; you are following&quot;</span><span class="s4">;</span>
+    <span class="s0">elseif </span><span class="s1">(</span><span class="s5">$t2</span><span class="s1">)       { </span><span class="s0">echo </span><span class="s3">&quot; &amp;rarr; is following you&quot;</span><span class="s4">;</span>
+        <span class="s5">$follow </span><span class="s1">= </span><span class="s3">&quot;recip&quot;</span><span class="s4">; </span><span class="s1">}</span>
+
+    <span class="s0">if </span><span class="s1">(!</span><span class="s5">$t1</span><span class="s1">) </span><span class="s0">echo </span><span class="s3">&quot; [&lt;a data-transition='slide' 
+      href='members.php?add=&quot; </span><span class="s1">. </span><span class="s5">$row</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] . </span><span class="s3">&quot;'&gt;</span><span class="s5">$follow</span><span class="s3">&lt;/a&gt;]&quot;</span><span class="s4">;</span>
+    <span class="s0">else      echo </span><span class="s3">&quot; [&lt;a data-transition='slide' 
+      href='members.php?remove=&quot; </span><span class="s1">. </span><span class="s5">$row</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] . </span><span class="s3">&quot;'&gt;drop&lt;/a&gt;]&quot;</span><span class="s4">;</span>
+<span class="s1">}</span>
+<span class="s0">?&gt;</span>
+<span class="s9">&lt;/ul&gt;&lt;/div&gt;</span>
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>

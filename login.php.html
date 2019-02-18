@@ -1,0 +1,82 @@
+<html>
+<head>
+<title>login.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832; font-weight: bold;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #cc7832;}
+.s5 { color: #9876aa;}
+.s6 { color: #a9b7c6;}
+.s7 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+login.php</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?php </span><span class="s2">// Example 26-7: login.php</span>
+<span class="s0">require_once </span><span class="s3">'header.php'</span><span class="s4">;</span>
+<span class="s5">$error </span><span class="s1">= </span><span class="s5">$user </span><span class="s1">= </span><span class="s5">$pass </span><span class="s1">= </span><span class="s3">&quot;&quot;</span><span class="s4">;</span>
+
+<span class="s0">if </span><span class="s1">(</span><span class="s0">isset</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">]))</span>
+{
+    <span class="s5">$user </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">])</span><span class="s4">;</span>
+    <span class="s5">$pass </span><span class="s1">= </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s5">$_POST</span><span class="s1">[</span><span class="s3">'pass'</span><span class="s1">])</span><span class="s4">;</span>
+
+    <span class="s0">if </span><span class="s1">(</span><span class="s5">$user </span><span class="s1">== </span><span class="s3">&quot;&quot; </span><span class="s1">|| </span><span class="s5">$pass </span><span class="s1">== </span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+        <span class="s5">$error </span><span class="s1">= </span><span class="s3">'Not all fields were entered'</span><span class="s4">;</span>
+    <span class="s0">else</span>
+    <span class="s1">{</span>
+        <span class="s5">$result </span><span class="s1">= </span><span class="s6">queryMySQL</span><span class="s1">(</span><span class="s3">&quot;SELECT user,pass FROM Member 
+        WHERE user='</span><span class="s5">$user</span><span class="s3">' AND pass='</span><span class="s5">$pass</span><span class="s3">'&quot;</span><span class="s1">)</span><span class="s4">;</span>
+
+        <span class="s0">if </span><span class="s1">(</span><span class="s5">$result</span><span class="s1">-&gt;</span><span class="s6">num_rows </span><span class="s1">== </span><span class="s7">0</span><span class="s1">)</span>
+        {
+            <span class="s5">$error </span><span class="s1">= </span><span class="s3">&quot;Invalid login attempt&quot;</span><span class="s4">;</span>
+        <span class="s1">}</span>
+        <span class="s0">else</span>
+        <span class="s1">{</span>
+            <span class="s5">$_SESSION</span><span class="s1">[</span><span class="s3">'user'</span><span class="s1">] = </span><span class="s5">$user</span><span class="s4">;</span>
+            <span class="s5">$_SESSION</span><span class="s1">[</span><span class="s3">'pass'</span><span class="s1">] = </span><span class="s5">$pass</span><span class="s4">;</span>
+            <span class="s0">die</span><span class="s1">(</span><span class="s3">&quot;&lt;div class='center'&gt;You are now logged in. Please 
+             &lt;a data-transition='slide' href='books.php?view=</span><span class="s5">$user</span><span class="s3">'&gt;click here&lt;/a&gt; 
+             to continue.&lt;/div&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="s1">)</span><span class="s4">;</span>
+        <span class="s1">}</span>
+    }
+}
+
+<span class="s0">echo </span><span class="s6">&lt;&lt;&lt;_END 
+      </span><span class="s3">&lt;form method='post' action='login.php'&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;&lt;/label&gt; 
+          &lt;span class='error'&gt;</span><span class="s5">$error</span><span class="s3">&lt;/span&gt; 
+        &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;&lt;/label&gt; 
+          Please enter your details to log in 
+        &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;Username&lt;/label&gt; 
+          &lt;input type='text' maxlength='16' name='user' value='</span><span class="s5">$user</span><span class="s3">'&gt; 
+        &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;Password&lt;/label&gt; 
+          &lt;input type='password' maxlength='16' name='pass' value='</span><span class="s5">$pass</span><span class="s3">'&gt; 
+        &lt;/div&gt; 
+        &lt;div data-role='fieldcontain'&gt; 
+          &lt;label&gt;&lt;/label&gt; 
+          &lt;input data-transition='slide' type='submit' value='Login'&gt; 
+        &lt;/div&gt; 
+      &lt;/form&gt; 
+    &lt;/div&gt; 
+  &lt;/body&gt; 
+&lt;/html&gt;</span>
+<span class="s6">_END</span><span class="s4">;</span>
+<span class="s0">?&gt;</span></pre>
+</body>
+</html>

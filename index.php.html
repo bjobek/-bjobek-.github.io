@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>index.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832; font-weight: bold;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #cc7832;}
+.s5 { color: #6a8759;}
+.s6 { color: #9876aa;}
+.s7 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+index.php</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?php </span><span class="s2">// Example 26-4: index.php</span>
+<span class="s3">session_start</span><span class="s1">()</span><span class="s4">;</span>
+<span class="s0">require_once </span><span class="s5">'header.php'</span><span class="s4">;</span>
+
+<span class="s0">echo </span><span class="s5">&quot;&lt;div class='center'&gt;Welcome to Nest,&quot;</span><span class="s4">;</span>
+
+<span class="s0">if </span><span class="s1">(</span><span class="s6">$loggedin</span><span class="s1">) </span><span class="s0">echo </span><span class="s5">&quot; </span><span class="s6">$user</span><span class="s5">, you are logged in&quot;</span><span class="s4">;</span>
+<span class="s0">else           echo </span><span class="s5">' please sign up or log in'</span><span class="s4">;</span>
+
+<span class="s0">echo </span><span class="s3">&lt;&lt;&lt;_END 
+      </span><span class="s5">&lt;/div&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt; 
+    &lt;/div&gt; 
+    &lt;div data-role=&quot;footer&quot;&gt; 
+      &lt;h4&gt;Powered by BJOBEK&lt;/i&gt;&lt;/h4&gt; 
+    &lt;/div&gt; 
+  &lt;/body&gt; 
+&lt;/html&gt;</span>
+<span class="s3">_END</span><span class="s4">;</span>
+<span class="s0">?&gt;</span>
+</pre>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<html>
+<head>
+<title>functions.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832; font-weight: bold;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #9876aa;}
+.s4 { color: #6a8759;}
+.s5 { color: #cc7832;}
+.s6 { color: #a9b7c6;}
+.s7 { color: #6897bb;}
+.s8 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+functions.php</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?php </span><span class="s2">// Example 26-1: functions.php</span>
+<span class="s3">$dbhost  </span><span class="s1">= </span><span class="s4">'localhost'</span><span class="s5">;    </span><span class="s2">// Unlikely to require changing</span>
+<span class="s3">$dbname  </span><span class="s1">= </span><span class="s4">'library'</span><span class="s5">;   </span><span class="s2">// Modify these...</span>
+<span class="s3">$dbuser  </span><span class="s1">= </span><span class="s4">'root'</span><span class="s5">;   </span><span class="s2">// ...variables according</span>
+<span class="s3">$dbpass  </span><span class="s1">= </span><span class="s4">'sikkerhet2'</span><span class="s5">;   </span><span class="s2">// ...to your installation</span>
+
+<span class="s3">$connection </span><span class="s1">= </span><span class="s0">new </span><span class="s6">mysqli</span><span class="s1">(</span><span class="s3">$dbhost</span><span class="s5">, </span><span class="s3">$dbuser</span><span class="s5">, </span><span class="s3">$dbpass</span><span class="s5">, </span><span class="s3">$dbname</span><span class="s1">)</span><span class="s5">;</span>
+<span class="s0">if </span><span class="s1">(</span><span class="s3">$connection</span><span class="s1">-&gt;</span><span class="s6">connect_error</span><span class="s1">) </span><span class="s0">die</span><span class="s1">(</span><span class="s4">&quot;Fatal Error&quot;</span><span class="s1">)</span><span class="s5">;</span>
+
+<span class="s0">function </span><span class="s6">createTable</span><span class="s1">(</span><span class="s3">$name</span><span class="s5">, </span><span class="s3">$query</span><span class="s1">)</span>
+{
+    <span class="s6">queryMysql</span><span class="s1">(</span><span class="s4">&quot;CREATE TABLE IF NOT EXISTS </span><span class="s3">$name</span><span class="s4">(</span><span class="s3">$query</span><span class="s4">)&quot;</span><span class="s1">)</span><span class="s5">;</span>
+    <span class="s0">echo </span><span class="s4">&quot;Table '</span><span class="s3">$name</span><span class="s4">' created or already exists.&lt;br&gt;&quot;</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s6">queryMysql</span><span class="s1">(</span><span class="s3">$query</span><span class="s1">)</span>
+{
+    <span class="s0">global </span><span class="s3">$connection</span><span class="s5">;</span>
+    <span class="s3">$result </span><span class="s1">= </span><span class="s3">$connection</span><span class="s1">-&gt;</span><span class="s6">query</span><span class="s1">(</span><span class="s3">$query</span><span class="s1">)</span><span class="s5">;</span>
+    <span class="s0">if </span><span class="s1">(!</span><span class="s3">$result</span><span class="s1">) </span><span class="s0">die</span><span class="s1">(</span><span class="s4">&quot;Fatal Error&quot;</span><span class="s1">)</span><span class="s5">;</span>
+    <span class="s0">return </span><span class="s3">$result</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s6">destroySession</span><span class="s1">()</span>
+{
+    <span class="s3">$_SESSION</span><span class="s1">=</span><span class="s0">array</span><span class="s1">()</span><span class="s5">;</span>
+
+    <span class="s0">if </span><span class="s1">(</span><span class="s6">session_id</span><span class="s1">() != </span><span class="s4">&quot;&quot; </span><span class="s1">|| </span><span class="s0">isset</span><span class="s1">(</span><span class="s3">$_COOKIE</span><span class="s1">[</span><span class="s6">session_name</span><span class="s1">()]))</span>
+        <span class="s6">setcookie</span><span class="s1">(</span><span class="s6">session_name</span><span class="s1">()</span><span class="s5">, </span><span class="s4">''</span><span class="s5">, </span><span class="s6">time</span><span class="s1">()-</span><span class="s7">2592000</span><span class="s5">, </span><span class="s4">'/'</span><span class="s1">)</span><span class="s5">;</span>
+
+    <span class="s6">session_destroy</span><span class="s1">()</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s6">sanitizeString</span><span class="s1">(</span><span class="s3">$var</span><span class="s1">)</span>
+{
+    <span class="s0">global </span><span class="s3">$connection</span><span class="s5">;</span>
+    <span class="s3">$var </span><span class="s1">= </span><span class="s6">strip_tags</span><span class="s1">(</span><span class="s3">$var</span><span class="s1">)</span><span class="s5">;</span>
+    <span class="s3">$var </span><span class="s1">= </span><span class="s6">htmlentities</span><span class="s1">(</span><span class="s3">$var</span><span class="s1">)</span><span class="s5">;</span>
+    <span class="s0">if </span><span class="s1">(</span><span class="s6">get_magic_quotes_gpc</span><span class="s1">())</span>
+        <span class="s3">$var </span><span class="s1">= </span><span class="s6">stripslashes</span><span class="s1">(</span><span class="s3">$var</span><span class="s1">)</span><span class="s5">;</span>
+    <span class="s0">return </span><span class="s3">$connection</span><span class="s1">-&gt;</span><span class="s6">real_escape_string</span><span class="s1">(</span><span class="s3">$var</span><span class="s1">)</span><span class="s5">;</span>
+<span class="s1">}</span>
+
+<span class="s0">function </span><span class="s6">showProfile</span><span class="s1">(</span><span class="s3">$user</span><span class="s1">)</span>
+{
+    <span class="s0">if </span><span class="s1">(</span><span class="s6">file_exists</span><span class="s1">(</span><span class="s4">&quot;</span><span class="s3">$user</span><span class="s4">.jpg&quot;</span><span class="s1">))</span>
+        <span class="s0">echo </span><span class="s4">&quot;&lt;img src='</span><span class="s3">$user</span><span class="s4">.jpg' style='float:left;'&gt;&quot;</span><span class="s5">;</span>
+
+    <span class="s3">$result </span><span class="s1">= </span><span class="s6">queryMysql</span><span class="s1">(</span><span class="s4">&quot;SELECT * FROM profiles WHERE user='</span><span class="s3">$user</span><span class="s4">'&quot;</span><span class="s1">)</span><span class="s5">;</span>
+
+    <span class="s0">if </span><span class="s1">(</span><span class="s3">$result</span><span class="s1">-&gt;</span><span class="s6">num_rows</span><span class="s1">)</span>
+    {
+        <span class="s3">$row </span><span class="s1">= </span><span class="s3">$result</span><span class="s1">-&gt;</span><span class="s6">fetch_array</span><span class="s1">(</span><span class="s6">MYSQLI_ASSOC</span><span class="s1">)</span><span class="s5">;</span>
+        <span class="s0">echo </span><span class="s6">stripslashes</span><span class="s1">(</span><span class="s3">$row</span><span class="s1">[</span><span class="s4">'text'</span><span class="s1">]) . </span><span class="s4">&quot;&lt;br style='clear:left;'&gt;&lt;br&gt;&quot;</span><span class="s5">;</span>
+    <span class="s1">}</span>
+    <span class="s0">else echo </span><span class="s4">&quot;&lt;p&gt;Nothing to see here, yet&lt;/p&gt;&lt;br&gt;&quot;</span><span class="s5">;</span>
+<span class="s1">}</span>
+<span class="s0">?&gt;</span>
+</pre>
+</body>
+</html>

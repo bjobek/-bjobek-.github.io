@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>header.php</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832; font-weight: bold;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #6a8759;}
+.s5 { color: #cc7832;}
+.s6 { color: #9876aa;}
+.s7 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+header.php</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?php </span><span class="s2">// Example 26-2: header.php</span>
+//session_start();
+
+<span class="s0">echo </span><span class="s3">&lt;&lt;&lt;_INIT 
+</span><span class="s4">&lt;!DOCTYPE html&gt;  
+&lt;html&gt; 
+  &lt;head&gt; 
+    &lt;meta charset='utf-8'&gt; 
+    &lt;meta name='viewport' content='width=device-width, initial-scale=1'&gt;  
+    &lt;link rel='stylesheet' href='jquery.mobile-1.4.5.min.css'&gt; 
+    &lt;link rel='stylesheet' href='styles.css' type='text/css'&gt; 
+    &lt;script src='javascript.js'&gt;&lt;/script&gt; 
+    &lt;script src='jquery-2.2.4.min.js'&gt;&lt;/script&gt; 
+    &lt;script src='jquery.mobile-1.4.5.min.js'&gt;&lt;/script&gt; 
+</span>
+<span class="s3">_INIT</span><span class="s5">;</span>
+
+<span class="s0">require_once </span><span class="s4">'functions.php'</span><span class="s5">;</span>
+
+<span class="s6">$userstr </span><span class="s1">= </span><span class="s4">'SysAdmin'</span><span class="s5">;</span>
+
+<span class="s0">if </span><span class="s1">(</span><span class="s0">isset</span><span class="s1">(</span><span class="s6">$_SESSION</span><span class="s1">[</span><span class="s4">'user'</span><span class="s1">]))</span>
+{
+    <span class="s6">$user     </span><span class="s1">= </span><span class="s6">$_SESSION</span><span class="s1">[</span><span class="s4">'user'</span><span class="s1">]</span><span class="s5">;</span>
+    <span class="s6">$loggedin </span><span class="s1">= </span><span class="s3">TRUE</span><span class="s5">;</span>
+    <span class="s6">$userstr  </span><span class="s1">= </span><span class="s4">&quot;Logged in as: </span><span class="s6">$user</span><span class="s4">&quot;</span><span class="s5">;</span>
+<span class="s1">}</span>
+<span class="s0">else </span><span class="s6">$loggedin </span><span class="s1">= </span><span class="s3">FALSE</span><span class="s5">;</span>
+
+<span class="s0">echo </span><span class="s3">&lt;&lt;&lt;_MAIN 
+    </span><span class="s4">&lt;title&gt;Library </span><span class="s6">$userstr</span><span class="s4">&lt;/title&gt; 
+  &lt;/head&gt; 
+  &lt;body&gt; 
+    &lt;div data-role='page'&gt; 
+      &lt;div data-role='header'&gt; 
+        &lt;div id='logo' class='center'&gt; Bjorn's Library&lt;/div&gt; 
+        &lt;div class='username'&gt;</span><span class="s6">$userstr</span><span class="s4">&lt;/div&gt; 
+      &lt;/div&gt; 
+      &lt;div data-role='content'&gt; 
+</span>
+<span class="s3">_MAIN</span><span class="s5">;</span>
+
+<span class="s0">if </span><span class="s1">(</span><span class="s6">$loggedin</span><span class="s1">)</span>
+{
+    <span class="s0">echo </span><span class="s3">&lt;&lt;&lt;_LOGGEDIN 
+        </span><span class="s4">&lt;div class='center'&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='home' 
+            data-transition=&quot;slide&quot; href='members.php?view=</span><span class="s6">$user</span><span class="s4">'&gt;Home&lt;/a&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='user' 
+            data-transition=&quot;slide&quot; href='books.php'&gt;Books&lt;/a&gt; 
+            &lt;a data-role='button' data-inline='true' data-icon='heart' 
+            data-transition=&quot;slide&quot; href='activeLenders.php'&gt;Active Lenders&lt;/a&gt;&lt;br&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='heart' 
+            data-transition=&quot;slide&quot; href='lenders.php'&gt;Lenders&lt;/a&gt;&lt;br&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='mail' 
+            data-transition=&quot;slide&quot; href='bookLoan.php'&gt;Books on loan&lt;/a&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='edit' 
+            data-transition=&quot;slide&quot; href='manage.php'&gt;Manage Users&lt;/a&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='action' 
+            data-transition=&quot;slide&quot; href='logout.php'&gt;Log out&lt;/a&gt; 
+        &lt;/div&gt; 
+        </span>
+<span class="s3">_LOGGEDIN</span><span class="s5">;</span>
+<span class="s1">}</span>
+<span class="s0">else</span>
+<span class="s1">{</span>
+    <span class="s0">echo </span><span class="s3">&lt;&lt;&lt;_GUEST 
+        </span><span class="s4">&lt;div class='center'&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='home' 
+            data-transition='slide' href='index.php'&gt;Home&lt;/a&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='clock' 
+          data-transition=&quot;slide&quot; href='activeLenders.php'&gt;Active Lenders&lt;/a&gt; 
+            &lt;a data-role='button' data-inline='true' data-icon='user' 
+            data-transition='slide' href='lenders.php'&gt;Lenders&lt;/a&gt;&lt;br&gt; 
+             &lt;a data-role='button' data-inline='true' data-icon='heart' 
+            data-transition=&quot;slide&quot; href='bookLoan.php'&gt;Books on loan&lt;/a&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='bullets' 
+            data-transition=&quot;slide&quot; href='books.php'&gt;Books&lt;/a&gt; 
+           &lt;a data-role='button' data-inline='true' data-icon='edit' 
+            data-transition=&quot;slide&quot; href='manage.php'&gt;Manage Users&lt;/a&gt; 
+          &lt;a data-role='button' data-inline='true' data-icon='check' 
+            data-transition=&quot;slide&quot; href='login.php'&gt;Log In&lt;/a&gt; 
+        &lt;/div&gt; 
+        &lt;p class='info'&gt;(You must be logged in to access these data)&lt;/p&gt; 
+        </span>
+<span class="s3">_GUEST</span><span class="s5">;</span>
+<span class="s1">}</span>
+<span class="s0">?&gt;</span>
+</pre>
+</body>
+</html>
